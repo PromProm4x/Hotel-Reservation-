@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Dashboard Preview — De La Renaissance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ivory: #faf7f2;
+    --ivory-2: #f3eee4;
+    --sand: #e8dfcd;
+    --green-900: #14201b;
+    --green-800: #1c2b24;
+    --green-700: #24382f;
+    --gold: #c6a15b;
+    --gold-soft: #cfae76;
+    --gold-deep: #a9853f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    background: #f3f2ee;
+    color: var(--green-900);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .display { font-family: 'Playfair Display', Georgia, serif; font-weight: 400; }
+
+  .shell { display: flex; min-height: 100vh; }
+
+  /* ── Sidebar ─────────────────────────── */
+  .sidebar {
+    width: 240px; flex-shrink: 0;
+    background: var(--green-900); color: var(--sand);
+    display: flex; flex-direction: column;
+  }
+  .sidebar .brand { padding: 20px; border-bottom: 1px solid var(--green-700); }
+  .sidebar .brand a { color: var(--sand); text-decoration: none; font-size: 18px; }
+  .sidebar .brand a span { color: var(--gold-soft); }
+  .sidebar .brand p { font-size: 10px; color: var(--gold-soft); margin-top: 4px; text-transform: uppercase; letter-spacing: .2em; }
+  .sidebar nav { padding: 16px 0; flex: 1; }
+  .sidebar nav a {
+    display: block; padding: 10px 20px; font-size: 13.5px;
+    color: var(--sand); text-decoration: none;
+  }
+  .sidebar nav a:hover { background: var(--green-800); color: var(--gold-soft); }
+  .sidebar nav a.active { background: var(--green-800); color: var(--gold-soft); border-left: 2px solid var(--gold-soft); padding-left: 18px; }
+  .sidebar nav .group-label { padding: 20px 20px 6px; font-size: 10px; text-transform: uppercase; letter-spacing: .2em; color: rgba(207,174,118,.7); }
+  .sidebar .user { padding: 16px 20px; border-top: 1px solid var(--green-700); font-size: 13px; }
+  .sidebar .user .links { display: flex; justify-content: space-between; margin-top: 8px; }
+  .sidebar .user .links a { color: var(--gold-soft); font-size: 11.5px; text-decoration: none; }
+  .sidebar .user .links a:hover { text-decoration: underline; }
+
+  /* ── Main ────────────────────────────── */
+  .main { flex: 1; min-width: 0; }
+  .container { max-width: 1080px; margin: 0 auto; padding: 32px 24px 48px; }
+  h1 { font-size: 24px; font-weight: 400; }
+  .subtitle { font-size: 13px; color: rgba(36,56,47,.6); margin-top: 4px; }
+
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .mt-6 { margin-top: 24px; } .mt-4 { margin-top: 16px; } .mt-8 { margin-top: 32px; }
+
+  .card {
+    background: #fff; border: 1px solid var(--sand); border-radius: 12px; padding: 20px;
+  }
+  .card .label, .card-dark .label {
+    font-size: 10.5px; text-transform: uppercase; letter-spacing: .18em; color: var(--gold-deep);
+  }
+  .card .value { font-size: 30px; margin-top: 8px; font-weight: 400; }
+  .card-dark { background: var(--green-900); color: var(--sand); border-radius: 12px; padding: 20px; }
+  .card-dark .label { color: var(--gold-soft); }
+  .card-dark .value { font-size: 24px; margin-top: 8px; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+  .panel { background: #fff; border: 1px solid var(--sand); border-radius: 12px; overflow: hidden; }
+  .panel h2 { font-size: 13.5px; font-weight: 500; padding: 16px 20px; border-bottom: 1px solid var(--ivory-2); }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 20px; border-bottom: 1px solid var(--ivory-2); }
+  .row:last-child { border-bottom: none; }
+  .row .name { font-weight: 500; }
+  .row .name a { color: var(--green-900); text-decoration: none; }
+  .row .name a:hover { text-decoration: underline; }
+  .row .meta { color: rgba(36,56,47,.6); font-size: 13px; margin-top: 2px; }
+
+  .btn { display: inline-block; border: none; cursor: pointer; border-radius: 8px; padding: 7px 12px; font-size: 12px; font-family: inherit; white-space: nowrap; }
+  .btn-green { background: var(--green-800); color: var(--ivory-2); }
+  .btn-green:hover { background: var(--green-700); }
+  .btn-gold { background: var(--gold); color: var(--green-900); }
+  .btn-gold:hover { background: var(--gold-soft); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  thead th {
+    text-align: left; padding: 12px 20px; font-size: 10.5px; font-weight: 500;
+    text-transform: uppercase; letter-spacing: .12em; color: var(--gold-deep);
+  }
+  tbody td { padding: 12px 20px; border-top: 1px solid var(--ivory-2); }
+  .num { text-align: right; }
+
+  .badge { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 999px; }
+  .badge-confirmed { background: #d1fae5; color: #065f46; }
+  .badge-pending { background: #fef3c7; color: #92400e; }
+  .badge-checkedin { background: #e0f2fe; color: #075985; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <a href="#" class="display">De La <span>Renaissance</span></a>
+      <p>Back Office</p>
+    </div>
+    <nav>
+      <a href="#" class="active">Dashboard</a>
+      <a href="#">Reservations</a>
+      <a href="#">Calendar</a>
+      <a href="#">Walk-in Booking</a>
+      <a href="#">Room Board</a>
+      <a href="#">Guests</a>
+      <p class="group-label">Administration</p>
+      <a href="#">Room Types</a>
+      <a href="#">Rooms</a>
+    </nav>
+    <div class="user">
+      <p>Renaissance Admin</p>
+      <div class="links"><a href="#">View site</a><a href="#">Sign out</a></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="container">
+      <h1 class="display">Dashboard</h1>
+      <p class="subtitle">Tuesday, 14 July 2026</p>
+
+      <div class="grid-3 mt-6">
+        <div class="card">
+          <p class="label">Occupancy today</p>
+          <p class="value">73%</p>
+        </div>
+        <div class="card">
+          <p class="label">Guests in-house</p>
+          <p class="value">2</p>
+        </div>
+        <div class="card">
+          <p class="label">Pending bookings</p>
+          <p class="value">2</p>
+        </div>
+      </div>
+
+      <div class="grid-3 mt-4">
+        <div class="card-dark">
+          <p class="label">Revenue today</p>
+          <p class="value">$486.20</p>
+        </div>
+        <div class="card-dark">
+          <p class="label">Revenue this week</p>
+          <p class="value">$3,148.75</p>
+        </div>
+        <div class="card-dark">
+          <p class="label">Revenue this month</p>
+          <p class="value">$12,904.40</p>
+        </div>
+      </div>
+
+      <div class="grid-2 mt-8">
+        <section class="panel">
+          <h2>Today's arrivals (2)</h2>
+          <div class="row">
+            <div>
+              <p class="name"><a href="#">Sokha Chan</a></p>
+              <p class="meta">Double Room · Room 204 · 2 night(s)</p>
+            </div>
+            <button class="btn btn-green">Check in</button>
+          </div>
+          <div class="row">
+            <div>
+              <p class="name"><a href="#">Marie Dubois</a></p>
+              <p class="meta">Deluxe Room · Room 305 · 4 night(s)</p>
+            </div>
+            <button class="btn btn-green">Check in</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Today's departures (1)</h2>
+          <div class="row">
+            <div>
+              <p class="name"><a href="#">David Lim</a></p>
+              <p class="meta">Room 108 · Balance: USD 0.00</p>
+            </div>
+            <button class="btn btn-gold">Check out</button>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel mt-6">
+        <h2>Upcoming arrivals (next 7 days)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th><th>Guest</th><th>Room type</th><th>Status</th><th class="num">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>15 Jul</td><td>Anders Larsen</td><td>Suite</td>
+              <td><span class="badge badge-confirmed">Confirmed</span></td>
+              <td class="num">USD 943.80</td>
+            </tr>
+            <tr>
+              <td>16 Jul</td><td>Nita Prak</td><td>Single Room</td>
+              <td><span class="badge badge-pending">Pending</span></td>
+              <td class="num">USD 187.00</td>
+            </tr>
+            <tr>
+              <td>18 Jul</td><td>Hana Watanabe</td><td>Deluxe Room</td>
+              <td><span class="badge badge-confirmed">Confirmed</span></td>
+              <td class="num">USD 1,306.25</td>
+            </tr>
+            <tr>
+              <td>21 Jul</td><td>Peter Okonkwo</td><td>Double Room</td>
+              <td><span class="badge badge-pending">Pending</span></td>
+              <td class="num">USD 412.50</td>
+            </tr>
+            <tr>
+              <td>24 Jul</td><td>Élodie Martin</td><td>Royal Suite</td>
+              <td><span class="badge badge-confirmed">Confirmed</span></td>
+              <td class="num">USD 1,892.00</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </main>
+
+</div>
+</body>
+</html>
